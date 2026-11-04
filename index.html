@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Azen Store — Billing & Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6f8;--panel:#fff;--ink:#17191f;--muted:#777e8b;--line:#e9ebef;--accent:#17191f;--gold:#b58a42;--green:#18865b;--red:#c44b4b;--shadow:0 8px 30px #1519230a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px 'DM Sans',sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:600;background:var(--accent);color:#fff}button.secondary{background:#f0f1f4;color:#282b32}button.danger{background:#fff0f0;color:var(--red)}button.gold{background:var(--gold)}input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;outline:none;color:var(--ink)}input:focus,select:focus,textarea:focus{border-color:#b58a42}label{display:block;color:#626977;font-size:12px;font-weight:600;margin:0 0 6px}.field{margin-bottom:12px}.muted{color:var(--muted)}.small{font-size:12px}.hidden{display:none!important}
+#login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#f7f7f5,#eceef2)}.login-card{width:min(420px,100%);background:#fff;padding:34px;border-radius:20px;box-shadow:var(--shadow)}.brand{font:800 24px Manrope;letter-spacing:1px}.brand span{color:var(--gold)}.login-card h1{font:700 23px Manrope;margin:28px 0 5px}.login-card button{width:100%;margin-top:8px}
+#app{display:none;min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:#17191f;color:#fff;padding:24px 15px;display:flex;flex-direction:column;z-index:5}.sidebar .brand{padding:0 12px 24px}.sidebar .brand span{color:#d4ad6b}.nav-label{color:#858995;font-size:10px;font-weight:700;letter-spacing:1.3px;padding:13px 12px 7px}.nav button{width:100%;text-align:left;background:transparent;color:#c7c9cf;padding:11px 12px;margin:2px 0;font-weight:500}.nav button.active,.nav button:hover{background:#2a2d35;color:#fff}.nav button b{display:inline-block;width:25px;color:#d4ad6b}.side-bottom{margin-top:auto;color:#8c909a;font-size:11px;padding:12px}
+.main{margin-left:245px;padding:28px;max-width:1600px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}.topbar h1{font:700 24px Manrope;margin:0}.top-right{display:flex;align-items:center;gap:10px}.avatar{width:36px;height:36px;border-radius:50%;background:#e9dfce;color:#72552a;display:grid;place-items:center;font-weight:700}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}.metric .muted{font-size:12px}.metric strong{display:block;font:700 24px Manrope;margin:10px 0 4px}.metric small{color:var(--green)}.section-head{display:flex;align-items:center;justify-content:space-between;margin:24px 0 13px}.section-head h2{font:700 16px Manrope;margin:0}.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.toolbar input{max-width:260px}.table-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);font-size:12px;white-space:nowrap}th{color:#777e8b;font-size:10px;text-transform:uppercase;letter-spacing:.7px;background:#fafbfc}tr:last-child td{border-bottom:0}.pill{display:inline-block;padding:4px 8px;border-radius:30px;background:#eef7f2;color:var(--green);font-size:10px;font-weight:700}.pill.red{background:#fff0f0;color:var(--red)}.pill.gray{background:#f0f1f4;color:#656b76}.empty{text-align:center;padding:35px;color:#9298a3}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.modal-back{position:fixed;inset:0;background:#11182770;display:none;place-items:center;padding:18px;z-index:20}.modal-back.show{display:grid}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;padding:22px}.modal h2{font:700 18px Manrope;margin:0 0 18px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.product-photo{width:42px;height:42px;object-fit:cover;border-radius:8px;background:#f0f1f4}.product-cell{display:flex;align-items:center;gap:10px}.bill-layout{display:grid;grid-template-columns:1.4fr .8fr;gap:15px}.bill-items{min-height:180px}.bill-total{display:flex;justify-content:space-between;padding:8px 0}.bill-total.final{border-top:1px solid var(--line);font-weight:800;font-size:17px;margin-top:8px;padding-top:15px}.notice{padding:12px;border-radius:9px;background:#fff8e9;color:#80602b;font-size:12px;margin-bottom:14px}.image-preview{width:64px;height:64px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.actions{display:flex;gap:6px}.actions button{padding:6px 9px;font-size:11px}.mobile-menu{display:none}
+@media(max-width:900px){.sidebar{width:205px}.main{margin-left:205px;padding:20px}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.sidebar{display:none}.main{margin:0;padding:16px}.grid{grid-template-columns:repeat(2,1fr);gap:9px}.card{padding:13px}.metric strong{font-size:19px}.topbar h1{font-size:20px}.bill-layout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.top-right .muted{display:none}}
+@media print{.sidebar,.topbar,.no-print{display:none!important}.main{margin:0;padding:0}.page{display:none!important}#print-area{display:block!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<div id="login">
+ <div class="login-card">
+  <div class="brand">AZEN <span>STORE</span></div><div class="muted small">BILLING & INVENTORY MANAGEMENT</div>
+  <h1>Welcome back</h1><p class="muted">Sign in to manage your store.</p>
+  <div class="field"><label>Admin Email</label><input id="login-email" type="email" placeholder="admin@example.com"></div>
+  <div class="field"><label>Password</label><input id="login-password" type="password" placeholder="Enter password"></div>
+  <button id="login-btn">Sign in</button><p id="login-error" class="small" style="color:#c44b4b"></p>
+  <p class="muted small">First-time setup: create your admin user in Supabase Authentication.</p>
+ </div>
+</div>
+<div id="app">
+ <aside class="sidebar">
+  <div class="brand">AZEN <span>STORE</span><div class="small" style="font:10px 'DM Sans';letter-spacing:1.2px;color:#858995;margin-top:5px">MANAGEMENT SYSTEM</div></div>
+  <div class="nav">
+   <div class="nav-label">OVERVIEW</div>
+   <button class="active" data-page="dashboard"><b>◫</b> Dashboard</button>
+   <div class="nav-label">STORE</div>
+   <button data-page="billing"><b>＋</b> New Bill</button>
+   <button data-page="sales"><b>▤</b> Sales & Invoices</button>
+   <button data-page="products"><b>□</b> Products & Stock</button>
+   <button data-page="purchases"><b>⇧</b> Stock Purchases</button>
+   <button data-page="returns"><b>↶</b> Returns & Exchanges</button>
+   <button data-page="customers"><b>♙</b> Customers</button>
+   <button data-page="payments"><b>＄</b> Payments</button>
+   <button data-page="expenses"><b>−</b> Expenses</button>
+   <div class="nav-label">MANAGEMENT</div>
+   <button data-page="reports"><b>▥</b> Reports</button>
+   <button data-page="backup"><b>◉</b> Backup & Restore</button>
+   <button data-page="settings"><b>⚙</b> Settings</button>
+  </div>
+  <div class="side-bottom">Azen Store · PKR (Rs.)<br>Secure Admin Workspace</div>
+ </aside>
+ <main class="main">
+  <header class="topbar"><div><div class="muted small">STORE MANAGEMENT</div><h1 id="page-title">Dashboard</h1></div><div class="top-right"><span class="muted small" id="today"></span><div class="avatar">A</div><button class="secondary" id="logout">Logout</button></div></header>
+  <section id="dashboard" class="page active">
+   <div class="grid">
+    <div class="card metric"><div class="muted">Today's Sales</div><strong id="m-sales">Rs. 0</strong><small>Gross billed today</small></div>
+    <div class="card metric"><div class="muted">Total Products</div><strong id="m-products">0</strong><small>Active catalog</small></div>
+    <div class="card metric"><div class="muted">Stock Value</div><strong id="m-stock">Rs. 0</strong><small>At purchase cost</small></div>
+    <div class="card metric"><div class="muted">Outstanding</div><strong id="m-due">Rs. 0</strong><small>Customer balances</small></div>
+   </div>
+   <div class="section-head"><h2>Recent Sales</h2><button class="secondary" onclick="go('sales')">View all</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Status</th></tr></thead><tbody id="recent-sales"></tbody></table></div>
+   <div class="section-head"><h2>Low Stock Alerts</h2><button class="secondary" onclick="go('products')">Manage stock</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Available</th><th>Alert Level</th></tr></thead><tbody id="low-stock"></tbody></table></div>
+  </section>
+  <section id="billing" class="page">
+   <div class="notice">Create an invoice, add products, receive payment and print a customer copy.</div>
+   <div class="bill-layout">
+    <div class="panel"><div class="section-head" style="margin-top:0"><h2>Invoice Items</h2></div>
+     <div class="field"><label>Find Product</label><select id="bill-product"></select></div>
+     <div class="form-grid"><div class="field"><label>Quantity</label><input id="bill-qty" type="number" min="1" value="1"></div><div class="field" style="display:flex;align-items:end"><button id="add-line" style="width:100%">Add to Bill</button></div></div>
+     <div class="table-wrap bill-items"><table><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th></th></tr></thead><tbody id="bill-lines"></tbody></table></div>
+    </div>
+    <div class="panel"><div class="section-head" style="margin-top:0"><h2>Customer & Payment</h2></div>
+     <div class="field"><label>Customer Name</label><input id="bill-customer" placeholder="Walk-in Customer"></div>
+     <div class="field"><label>Phone</label><input id="bill-phone" placeholder="03xx xxxxxxx"></div>
+     <div class="field"><label>Discount (Rs.)</label><input id="bill-discount" type="number" min="0" value="0"></div>
+     <div class="field"><label>Payment Method</label><select id="bill-method"><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>JazzCash</option><option>EasyPaisa</option><option>Credit</option></select></div>
+     <div class="field"><label>Received (Rs.)</label><input id="bill-paid" type="number" min="0" value="0"></div>
+     <div class="bill-total"><span>Subtotal</span><b id="bill-sub">Rs. 0</b></div><div class="bill-total"><span>Discount</span><b id="bill-disc">Rs. 0</b></div><div class="bill-total final"><span>Grand Total</span><b id="bill-grand">Rs. 0</b></div><div class="bill-total"><span>Balance Due</span><b id="bill-due">Rs. 0</b></div>
+     <button id="save-bill" style="width:100%;margin-top:12px">Save Invoice & Print</button>
+    </div>
+   </div>
+  </section>
+  <section id="products" class="page">
+   <div class="section-head"><h2>Product Catalog & Stock</h2><div class="toolbar"><input id="product-search" placeholder="Search products..."><button id="add-product">+ Add Product</button></div></div>
+   <div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Cost</th><th>Sale Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="products-body"></tbody></table></div>
+  </section>
+  <section id="sales" class="page">
+   <div class="section-head"><h2>Sales & Invoices</h2><div class="toolbar"><input id="sales-search" placeholder="Search invoice/customer..."><button onclick="go('billing')">+ New Bill</button></div></div>
+   <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Phone</th><th>Total</th><th>Paid</th><th>Due</th><th>Actions</th></tr></thead><tbody id="sales-body"></tbody></table></div>
+  </section>
+  <section id="purchases" class="page">
+   <div class="section-head"><h2>Stock Purchases</h2><button id="add-purchase">+ Record Purchase</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Purchase ID</th><th>Date</th><th>Supplier</th><th>Product</th><th>Qty</th><th>Unit Cost</th><th>Total</th></tr></thead><tbody id="purchases-body"></tbody></table></div>
+  </section>
+  <section id="returns" class="page">
+   <div class="section-head"><h2>Returns & Exchanges</h2><button id="add-return">+ Record Return</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Return ID</th><th>Date</th><th>Invoice</th><th>Product</th><th>Qty</th><th>Reason</th><th>Type</th></tr></thead><tbody id="returns-body"></tbody></table></div>
+  </section>
+  <section id="customers" class="page">
+   <div class="section-head"><h2>Customer Accounts</h2></div>
+   <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Phone</th><th>Total Sales</th><th>Received</th><th>Outstanding</th></tr></thead><tbody id="customers-body"></tbody></table></div>
+  </section>
+  <section id="payments" class="page">
+   <div class="section-head"><h2>Payment Receiving</h2><button id="add-payment">+ Receive Payment</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Invoice</th><th>Method</th><th>Amount</th></tr></thead><tbody id="payments-body"></tbody></table></div>
+  </section>
+  <section id="expenses" class="page">
+   <div class="section-head"><h2>Expenses</h2><button id="add-expense">+ Add Expense</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th></tr></thead><tbody id="expenses-body"></tbody></table></div>
+  </section>
+  <section id="reports" class="page">
+   <div class="section-head"><h2>Business Reports</h2><button id="export-csv" class="secondary">Export Sales CSV</button></div>
+   <div class="grid"><div class="card metric"><div class="muted">All-time Sales</div><strong id="r-sales">Rs. 0</strong></div><div class="card metric"><div class="muted">Payments Received</div><strong id="r-paid">Rs. 0</strong></div><div class="card metric"><div class="muted">Returns</div><strong id="r-returns">0</strong></div><div class="card metric"><div class="muted">Expenses</div><strong id="r-expenses">Rs. 0</strong></div></div>
+   <p class="muted small" style="margin-top:15px">Profit reporting is based on recorded cost prices and excludes unrecorded overheads, taxes and adjustments.</p>
+  </section>
+  <section id="backup" class="page">
+   <div class="panel" style="max-width:700px"><h2 style="font:700 18px Manrope">Backup & Restore</h2><p class="muted">Download a complete JSON backup of your store records. Restore only a backup created by Azen Store.</p><div class="toolbar"><button id="backup-download">Download Full Backup</button><label class="secondary" style="padding:10px 14px;border-radius:9px;cursor:pointer"><input id="backup-file" type="file" accept=".json" style="display:none">Choose Backup File</label><button id="restore-backup" class="secondary">Restore Backup</button></div><p id="backup-msg" class="small muted"></p></div>
+  </section>
+  <section id="settings" class="page">
+   <div class="panel" style="max-width:700px"><h2 style="font:700 18px Manrope">Store Settings</h2><div class="form-grid"><div class="field"><label>Store Name</label><input id="store-name" value="Azen Store"></div><div class="field"><label>Phone</label><input id="store-phone" placeholder="Store contact number"></div><div class="field"><label>Address</label><input id="store-address" placeholder="Store address"></div><div class="field"><label>Invoice Footer</label><input id="store-footer" value="Thank you for shopping with us!"></div></div><button id="save-settings">Save Settings</button><p class="muted small">Admin password and email are managed securely in Supabase Authentication.</p></div>
+  </section>
+  <section id="print-area" class="hidden"></section>
+ </main>
+</div>
+<div class="modal-back" id="modal"><div class="modal"><h2 id="modal-title">Add</h2><div id="modal-content"></div><div class="modal-actions"><button class="secondary" id="modal-cancel">Cancel</button><button id="modal-save">Save</button></div></div></div>
+<script type="module" src="/src/main.js"></script>
+</body></html>
